@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Görsel Yükleme Konsolu — Onur Özsoy</title>
+<style>
+  :root { color-scheme: light; }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: #F7F4EF; color: #14140F; font-family: "Instrument Sans", system-ui, sans-serif; padding: 40px 24px 80px; }
+  h1 { font-family: Georgia, serif; font-weight: 400; font-size: 30px; margin: 0 0 6px; }
+  p.lead { color: #4A473F; margin: 0 0 40px; max-width: 60ch; }
+  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 22px; max-width: 1100px; }
+  .card { background: #FDFBF7; border: 1px solid rgba(20,20,15,.12); border-radius: 12px; overflow: hidden; display: flex; flex-direction: column; }
+  .thumb { position: relative; aspect-ratio: 4/3; background: #E7E1D6; display: flex; align-items: center; justify-content: center; color: #8A857A; font-size: 12px; overflow: hidden; }
+  .thumb img { width: 100%; height: 100%; object-fit: cover; }
+  .body { padding: 16px 18px 18px; display: flex; flex-direction: column; gap: 10px; }
+  .label { font-weight: 600; font-size: 14.5px; }
+  .filename { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: #8A857A; }
+  input[type="file"] { font-size: 12.5px; }
+  button { background: #14140F; color: #F0EDE6; border: none; border-radius: 6px; padding: 10px 14px; font-size: 13.5px; font-weight: 500; cursor: pointer; }
+  button:hover { background: #B8994F; }
+  button:disabled { opacity: .5; cursor: default; }
+  .msg { font-size: 12.5px; min-height: 16px; }
+  .msg.ok { color: #3f7d3f; }
+  .msg.err { color: #b3413d; }
+</style>
+</head>
+<body>
+  <h1>Görsel Yükleme Konsolu</h1>
+  <p class="lead">Web sitesindeki her görsel alanı için fotoğraf yükleyin. Yüklediğiniz görsel otomatik olarak <code>images/</code> klasörüne kaydedilir ve site dosyası (<code>index.html</code>) güncellenir — sayfayı yenilediğinizde yeni görseli göreceksiniz.</p>
+  <div class="grid" id="grid"></div>
+
+<script>
+async function loadSlots() {
+  const res = await fetch('/api/slots');
+  const slots = await res.json();
+  const grid = document.getElementById('grid');
+  grid.innerHTML = '';
+  for (const slot of slots) {
+    const card = document.createElement('div');
+    card.className = 'card';
+    card.innerHTML = `
+      <div class="thumb" data-thumb>${slot.url ? `<img src="${slot.url}" alt="">` : 'Görsel yok'}</div>
+      <div class="body">
+        <div class="label">${slot.label}</div>
+        <div class="filename" data-filename>${slot.file || 'Henüz yüklenmedi'}</div>
+        <input type="file" accept="image/jpeg,image/png,image/webp,image/avif" data-input>
+        <button data-btn>Yükle</button>
+        <div class="msg" data-msg></div>
+      </div>
+    `;
+    const input = card.querySelector('[data-input]');
+    const btn = card.querySelector('[data-btn]');
+    const msg = card.querySelector('[data-msg]');
+    const thumb = card.querySelector('[data-thumb]');
+    const filenameEl = card.querySelector('[data-filename]');
+
+    btn.addEventListener('click', async () => {
+      const file = input.files[0];
+      if (!file) { msg.textContent = 'Önce bir dosya seçin.'; msg.className = 'msg err'; return; }
+      btn.disabled = true;
+      msg.textContent = 'Yükleniyor...';
+      msg.className = 'msg';
+      const fd = new FormData();
+      fd.append('image', file);
+      try {
+        const r = await fetch('/api/upload/' + slot.id, { method: 'POST', body: fd });
+        const data = await r.json();
+        if (!r.ok) throw new Error(data.error || 'Yükleme başarısız');
+        thumb.innerHTML = `<img src="${data.url}" alt="">`;
+        filenameEl.textContent = data.file;
+        msg.textContent = 'Yüklendi.';
+        msg.className = 'msg ok';
+      } catch (err) {
+        msg.textContent = err.message;
+        msg.className = 'msg err';
+      } finally {
+        btn.disabled = false;
+      }
+    });
+
+    grid.appendChild(card);
+  }
+}
+loadSlots();
+</script>
+</body>
+</html>
