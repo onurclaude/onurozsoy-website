@@ -1,0 +1,24 @@
+services:
+  site:
+    image: nginx:alpine
+    restart: unless-stopped
+    ports:
+      - "5500:80"
+    volumes:
+      - ./index.html:/usr/share/nginx/html/index.html:ro
+      - ./favicon.png:/usr/share/nginx/html/favicon.png:ro
+      - ./css:/usr/share/nginx/html/css:ro
+      - ./js:/usr/share/nginx/html/js:ro
+      - ./images:/usr/share/nginx/html/images:ro
+
+  console:
+    build: ./console
+    restart: unless-stopped
+    ports:
+      - "4173:4173"
+    environment:
+      - IMAGES_DIR=/data/images
+      - INDEX_HTML=/data/index.html
+    volumes:
+      - ./images:/data/images
+      - ./index.html:/data/index.html

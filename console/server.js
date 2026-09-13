@@ -4,8 +4,8 @@ const express = require('express');
 const multer = require('multer');
 
 const ROOT = path.join(__dirname, '..');
-const IMAGES_DIR = path.join(ROOT, 'images');
-const INDEX_HTML = path.join(ROOT, 'index.html');
+const IMAGES_DIR = process.env.IMAGES_DIR ? path.resolve(process.env.IMAGES_DIR) : path.join(ROOT, 'images');
+const INDEX_HTML = process.env.INDEX_HTML ? path.resolve(process.env.INDEX_HTML) : path.join(ROOT, 'index.html');
 
 fs.mkdirSync(IMAGES_DIR, { recursive: true });
 
