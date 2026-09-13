@@ -33,9 +33,29 @@ const upload = multer({
   },
 });
 
+const ADMIN_USER = process.env.ADMIN_USER || 'onur';
+const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD;
+if (!ADMIN_PASSWORD) {
+  console.error('ADMIN_PASSWORD ortam değişkeni tanımlı değil. console/.env dosyasını kontrol edin.');
+  process.exit(1);
+}
+
+function requireAuth(req, res, next) {
+  const header = req.headers.authorization || '';
+  const [scheme, encoded] = header.split(' ');
+  if (scheme === 'Basic' && encoded) {
+    const [user, pass] = Buffer.from(encoded, 'base64').toString('utf8').split(':');
+    if (user === ADMIN_USER && pass === ADMIN_PASSWORD) return next();
+  }
+  res.set('WWW-Authenticate', 'Basic realm="Onur Ozsoy Console"');
+  res.status(401).send('Yetkilendirme gerekli.');
+}
+
 const app = express();
-app.use(express.static(path.join(__dirname, 'public')));
 app.use('/images', express.static(IMAGES_DIR));
+app.use('/console/admin', requireAuth, express.static(path.join(__dirname, 'public')));
+app.use('/api', requireAuth);
+app.get('/', (req, res) => res.redirect('/console/admin'));
 
 function currentFileForSlot(base) {
   const exts = ['jpg', 'jpeg', 'png', 'webp', 'avif'];

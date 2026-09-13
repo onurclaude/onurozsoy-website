@@ -16,6 +16,8 @@ services:
     restart: unless-stopped
     ports:
       - "4173:4173"
+    env_file:
+      - ./console/.env
     environment:
       - IMAGES_DIR=/data/images
       - INDEX_HTML=/data/index.html
