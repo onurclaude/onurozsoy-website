@@ -17,8 +17,8 @@ services:
   console:
     build: ./console
     restart: unless-stopped
-    ports:
-      - "4173:4173"
+    expose:
+      - "4173"
     env_file:
       - ./console/.env
     environment:
