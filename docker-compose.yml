@@ -11,6 +11,8 @@ services:
       - ./js:/usr/share/nginx/html/js:ro
       - ./images:/usr/share/nginx/html/images:ro
       - ./nginx.conf:/etc/nginx/conf.d/default.conf:ro
+      - ./app-ads.txt:/usr/share/nginx/html/app-ads.txt:ro
+      - ./nicolateslaflyingcar:/usr/share/nginx/html/nicolateslaflyingcar:ro
     depends_on:
       - console
 
