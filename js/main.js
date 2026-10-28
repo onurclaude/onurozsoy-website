@@ -52,12 +52,17 @@
     f_name: "FULL NAME *", f_mail: "EMAIL *", f_co: "COMPANY / BUSINESS", f_type: "PROJECT TYPE",
     f_desc: "PROJECT DESCRIPTION *", f_desc_ph: "Briefly describe what you want to build.",
     f_budget: "BUDGET RANGE (OPTIONAL)", f_send: "I'd Like to Discuss My Project",
-    ft_sub: "onurozsoy.com — Web & Digital Solutions"
+    brain_hint: "DRAG · ROTATE — CLICK · SCATTER",
+    ft_sub: "ozsoyonur.com — Web & Digital Solutions"
   };
-  const NOTE = { tr: "YANIT SÜRESİ: 24 SAAT İÇİNDE", en: "RESPONSE TIME: WITHIN 24 HOURS" };
-  const SENT = { tr: "TEŞEKKÜRLER — E-POSTA İSTEMCİNİZ AÇILIYOR", en: "THANKS — OPENING YOUR EMAIL CLIENT" };
+  const MSG = {
+    idle: { tr: "YANIT SÜRESİ: 24 SAAT İÇİNDE", en: "RESPONSE TIME: WITHIN 24 HOURS" },
+    sending: { tr: "GÖNDERİLİYOR…", en: "SENDING…" },
+    sent: { tr: "TEŞEKKÜRLER — MESAJINIZ İLETİLDİ", en: "THANKS — YOUR MESSAGE HAS BEEN SENT" },
+    error: { tr: "GÖNDERİLEMEDİ — LÜTFEN onur@ozsoyonur.com ADRESİNE YAZIN", en: "COULD NOT SEND — PLEASE EMAIL onur@ozsoyonur.com" }
+  };
 
-  const state = { lang: "tr", sent: false };
+  const state = { lang: "tr", note: "idle" };
 
   const nav = document.getElementById("siteNav");
   const navBar = nav.querySelector("nav");
@@ -81,7 +86,7 @@
     });
     document.documentElement.lang = lang;
     langLabel.textContent = lang === "tr" ? "EN" : "TR";
-    formNote.textContent = state.sent ? SENT[lang] : NOTE[lang];
+    formNote.textContent = MSG[state.note][lang];
   }
 
   langToggle.addEventListener("click", () => {
@@ -107,10 +112,10 @@
 
   function onScroll() {
     const on = window.scrollY > 24;
-    nav.style.background = on ? "rgba(247,244,239,.88)" : "rgba(247,244,239,0)";
+    nav.style.background = on ? "rgba(0,0,0,.72)" : "rgba(0,0,0,0)";
     nav.style.backdropFilter = on ? "saturate(160%) blur(14px)" : "none";
-    nav.style.borderBottomColor = on ? "rgba(20,20,15,.1)" : "rgba(20,20,15,0)";
-    nav.style.color = on ? "#14140F" : "#F2EFE8";
+    nav.style.borderBottomColor = on ? "rgba(255,255,255,.1)" : "rgba(255,255,255,0)";
+    nav.style.color = "#ffffff";
   }
   window.addEventListener("scroll", onScroll, { passive: true });
   onScroll();
@@ -133,26 +138,31 @@
     });
   }
 
-  contactForm.addEventListener("submit", (e) => {
+  function setNote(key) {
+    state.note = key;
+    formNote.textContent = MSG[key][state.lang];
+  }
+
+  contactForm.addEventListener("submit", async (e) => {
     e.preventDefault();
-    const f = new FormData(e.target);
-    const lang = state.lang;
-    const L = lang === "tr"
-      ? { s: "Proje talebi", co: "Firma", t: "Proje türü", b: "Bütçe", d: "Açıklama", n: "Ad" }
-      : { s: "Project inquiry", co: "Company", t: "Project type", b: "Budget", d: "Brief", n: "Name" };
-    const body = [
-      L.n + ": " + (f.get("name") || ""),
-      "E-mail: " + (f.get("email") || ""),
-      L.co + ": " + (f.get("company") || "—"),
-      L.t + ": " + (f.get("type") || ""),
-      L.b + ": " + (f.get("budget") || ""),
-      "",
-      L.d + ":",
-      f.get("brief") || ""
-    ].join("\n");
-    state.sent = true;
-    formNote.textContent = SENT[lang];
-    window.location.href = "mailto:portofiskirtasiye@gmail.com?subject=" +
-      encodeURIComponent(L.s + " — " + (f.get("name") || "")) + "&body=" + encodeURIComponent(body);
+    if (state.note === "sending") return;
+    const submit = contactForm.querySelector('button[type="submit"]');
+    const payload = Object.fromEntries(new FormData(contactForm).entries());
+    setNote("sending");
+    submit.disabled = true;
+    try {
+      const res = await fetch("/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload)
+      });
+      if (!res.ok) throw new Error("HTTP " + res.status);
+      contactForm.reset();
+      setNote("sent");
+    } catch (err) {
+      setNote("error");
+    } finally {
+      submit.disabled = false;
+    }
   });
 })();
