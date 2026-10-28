@@ -2,6 +2,7 @@ const path = require('path');
 const fs = require('fs');
 const express = require('express');
 const multer = require('multer');
+const nodemailer = require('nodemailer');
 
 const ROOT = path.join(__dirname, '..');
 const IMAGES_DIR = process.env.IMAGES_DIR ? path.resolve(process.env.IMAGES_DIR) : path.join(ROOT, 'images');
@@ -52,6 +53,7 @@ function requireAuth(req, res, next) {
 }
 
 const app = express();
+app.set('trust proxy', 1); // behind the nginx container; req.ip is the visitor
 app.use('/images', express.static(IMAGES_DIR));
 app.use('/console/admin', requireAuth, express.static(path.join(__dirname, 'public')));
 app.use('/api', requireAuth);
@@ -111,6 +113,74 @@ function updateIndexHtml(slotId, newFilename) {
     fs.writeFileSync(INDEX_HTML, html, 'utf8');
   }
 }
+
+// ---- public contact form (not behind Basic Auth; nginx proxies only this path) ----
+const MAIL_TO = process.env.MAIL_TO || 'onur@ozsoyonur.com';
+const SMTP_READY = Boolean(process.env.SMTP_HOST && process.env.SMTP_USER && process.env.SMTP_PASS);
+const mailer = SMTP_READY
+  ? nodemailer.createTransport({
+      host: process.env.SMTP_HOST,
+      port: Number(process.env.SMTP_PORT) || 587,
+      secure: process.env.SMTP_SECURE === 'true',
+      auth: { user: process.env.SMTP_USER, pass: process.env.SMTP_PASS },
+    })
+  : null;
+if (!SMTP_READY) {
+  console.warn('SMTP_HOST / SMTP_USER / SMTP_PASS tanımlı değil: iletişim formu mail gönderemez (503 döner).');
+}
+
+const RATE_LIMIT = 5; // submissions per IP per hour
+const hits = new Map();
+function rateLimited(ip) {
+  const now = Date.now();
+  if (hits.size > 2000) hits.clear();
+  const recent = (hits.get(ip) || []).filter((t) => now - t < 60 * 60 * 1000);
+  recent.push(now);
+  hits.set(ip, recent);
+  return recent.length > RATE_LIMIT;
+}
+
+const clean = (v, max) => String(v == null ? '' : v).replace(/\r/g, '').trim().slice(0, max);
+const oneLine = (v, max) => clean(v, max).replace(/\s+/g, ' ');
+
+app.post('/contact', express.json({ limit: '20kb' }), async (req, res) => {
+  const b = req.body || {};
+  if (b.website) return res.json({ ok: true }); // honeypot field filled: a bot, pretend success
+
+  const name = oneLine(b.name, 120);
+  const email = oneLine(b.email, 200);
+  const brief = clean(b.brief, 5000);
+  if (!name || !brief || !/^[^\s@<>"]+@[^\s@<>"]+\.[^\s@<>"]+$/.test(email)) {
+    return res.status(400).json({ error: 'invalid' });
+  }
+  if (rateLimited(req.ip)) return res.status(429).json({ error: 'rate_limited' });
+  if (!mailer) return res.status(503).json({ error: 'not_configured' });
+
+  const text = [
+    `Ad: ${name}`,
+    `E-posta: ${email}`,
+    `Firma: ${oneLine(b.company, 160) || '—'}`,
+    `Proje türü: ${oneLine(b.type, 80) || '—'}`,
+    `Bütçe: ${oneLine(b.budget, 80) || '—'}`,
+    '',
+    'Açıklama:',
+    brief,
+  ].join('\n');
+
+  try {
+    await mailer.sendMail({
+      from: process.env.SMTP_FROM || `"ozsoyonur.com" <${process.env.SMTP_USER}>`,
+      to: MAIL_TO,
+      replyTo: { name: name.replace(/["<>]/g, ''), address: email },
+      subject: `Proje talebi — ${name}`,
+      text,
+    });
+    res.json({ ok: true });
+  } catch (err) {
+    console.error('Mail gönderilemedi:', err.message);
+    res.status(502).json({ error: 'send_failed' });
+  }
+});
 
 const PORT = process.env.PORT || 4173;
 app.listen(PORT, () => {
