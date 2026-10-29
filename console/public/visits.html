@@ -1,0 +1,300 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ziyaretçiler — Onur Özsoy</title>
+<style>
+  :root {
+    color-scheme: light;
+    --bg: #F7F4EF;
+    --surface: #FDFBF7;
+    --ink: #14140F;
+    --ink-2: #4A473F;
+    --ink-3: #8A857A;
+    --line: rgba(20,20,15,.12);
+    --grid: rgba(20,20,15,.07);
+    --accent: #B8994F;
+    --series-1: #2a78d6;
+    --series-1-soft: rgba(42,120,214,.14);
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--ink); font-family: "Instrument Sans", system-ui, sans-serif; padding: 32px 16px 80px; }
+  .wrap { max-width: 1100px; margin: 0 auto; }
+  nav { font-size: 13.5px; margin-bottom: 18px; }
+  nav a { color: var(--ink); }
+  h1 { font-family: Georgia, serif; font-weight: 400; font-size: 30px; margin: 0 0 6px; }
+  p.lead { color: var(--ink-2); margin: 0 0 24px; max-width: 70ch; font-size: 14.5px; }
+  .filters { display: flex; flex-wrap: wrap; gap: 10px 18px; align-items: center; margin-bottom: 22px; }
+  .seg { display: inline-flex; flex-wrap: wrap; background: var(--surface); border: 1px solid var(--line); border-radius: 8px; padding: 3px; gap: 2px; }
+  .seg button { background: none; border: none; border-radius: 6px; padding: 7px 12px; font: inherit; font-size: 13px; color: var(--ink-2); cursor: pointer; }
+  .seg button[aria-pressed="true"] { background: var(--ink); color: #F0EDE6; }
+  .seg button:focus-visible { outline: 2px solid var(--series-1); outline-offset: 1px; }
+  .updated { font-size: 12px; color: var(--ink-3); margin-left: auto; }
+  .kpis { display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 14px; margin-bottom: 18px; }
+  .card { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 16px 18px; min-width: 0; }
+  .kpi .k { font-size: 12px; color: var(--ink-3); text-transform: uppercase; letter-spacing: .04em; }
+  .kpi .v { font-family: Georgia, serif; font-size: 32px; margin-top: 6px; font-variant-numeric: tabular-nums; }
+  .kpi .v.text { font-size: 21px; line-height: 1.25; overflow-wrap: anywhere; }
+  .kpi .s { font-size: 12.5px; color: var(--ink-2); margin-top: 2px; }
+  h2 { font-size: 14px; font-weight: 600; margin: 0 0 12px; }
+  .chart-card { margin-bottom: 18px; }
+  .chart { position: relative; height: 200px; }
+  .chart svg { display: block; width: 100%; height: 100%; overflow: visible; }
+  .tip { position: absolute; pointer-events: none; background: var(--ink); color: #F0EDE6; font-size: 12px; padding: 7px 9px; border-radius: 6px; white-space: nowrap; transform: translate(-50%, -100%); opacity: 0; transition: opacity .1s; }
+  .tip b { font-variant-numeric: tabular-nums; }
+  .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 14px; margin-bottom: 18px; }
+  ol.bars { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 7px; }
+  ol.bars li { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 10px; align-items: center; font-size: 13px; position: relative; padding: 5px 8px; border-radius: 4px; }
+  ol.bars li .fill { position: absolute; inset: 0 auto 0 0; background: var(--series-1-soft); border-radius: 4px; z-index: 0; }
+  ol.bars li span { position: relative; z-index: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  ol.bars li .n { font-variant-numeric: tabular-nums; color: var(--ink-2); }
+  .empty { color: var(--ink-3); font-size: 13px; }
+  .table-wrap { overflow-x: auto; }
+  table { width: 100%; border-collapse: collapse; font-size: 12.5px; }
+  th, td { text-align: left; padding: 7px 8px; border-bottom: 1px solid var(--grid); white-space: nowrap; }
+  th { color: var(--ink-3); font-weight: 500; font-size: 11.5px; text-transform: uppercase; letter-spacing: .04em; }
+  td.path { max-width: 260px; overflow: hidden; text-overflow: ellipsis; }
+  td.mono, .mono { font-family: 'JetBrains Mono', ui-monospace, monospace; font-size: 11.5px; color: var(--ink-2); }
+  footer { font-size: 12px; color: var(--ink-3); line-height: 1.6; }
+  footer a { color: var(--ink-2); }
+  .sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+  @media (max-width: 560px) { h1 { font-size: 26px; } .updated { margin-left: 0; width: 100%; } }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <nav><a href="./">← Görsel Yükleme Konsolu</a></nav>
+  <h1>Ziyaretçiler</h1>
+  <p class="lead">Sitelerinize giren kişilerin yaklaşık konumu, baktıkları sayfalar ve nereden geldikleri. Konum IP adresinden hesaplanır: ülke genelde doğrudur, şehir yaklaşıktır (mobil hatlarda operatörün merkezi görünebilir). Botlar ve veri merkezi trafiği sayılmaz. IP adresleri kısaltılmış olarak tutulur, kayıtlar 90 gün sonra silinir.</p>
+
+  <div class="filters">
+    <div class="seg" id="siteSeg" role="group" aria-label="Site"></div>
+    <div class="seg" id="rangeSeg" role="group" aria-label="Zaman aralığı">
+      <button data-range="1">Bugün</button>
+      <button data-range="7" aria-pressed="true">7 gün</button>
+      <button data-range="30">30 gün</button>
+      <button data-range="90">90 gün</button>
+    </div>
+    <span class="updated" id="updated"></span>
+  </div>
+
+  <div id="content"><p class="empty">Yükleniyor…</p></div>
+
+  <footer>
+    Konum verisi: <a href="https://db-ip.com" target="_blank" rel="noopener noreferrer">IP Geolocation by DB-IP</a> (CC BY 4.0).
+    “Ziyaretçi”, aynı gün aynı cihazdan gelen istekleri bir kişi sayar; günler arası aynı kişi tekrar sayılır.
+    Sayfa her 5 dakikada bir yenilenir.
+  </footer>
+</div>
+
+<script>
+(() => {
+  const SITE_LABEL = { all: "Tümü" };
+  const trCountry = (() => { try { return new Intl.DisplayNames(["tr"], { type: "region" }); } catch { return null; } })();
+  const nf = new Intl.NumberFormat("tr-TR");
+  const dateShort = new Intl.DateTimeFormat("tr-TR", { day: "numeric", month: "short" });
+  const dateLong = new Intl.DateTimeFormat("tr-TR", { weekday: "short", day: "numeric", month: "long" });
+  const timeFmt = new Intl.DateTimeFormat("tr-TR", { day: "2-digit", month: "2-digit", hour: "2-digit", minute: "2-digit", timeZone: "Europe/Istanbul" });
+
+  let data = null;
+  const state = { site: "all", range: "7" };
+  try {
+    const saved = JSON.parse(localStorage.getItem("visits-filters") || "{}");
+    if (saved.site) state.site = saved.site;
+    if (saved.range) state.range = saved.range;
+  } catch {}
+
+  const el = (tag, props = {}, ...kids) => {
+    const n = document.createElement(tag);
+    for (const [k, v] of Object.entries(props)) {
+      if (k === "class") n.className = v;
+      else if (k === "style") n.style.cssText = v;
+      else n.setAttribute(k, v);
+    }
+    for (const kid of kids) if (kid != null) n.append(kid);
+    return n;
+  };
+  const flag = (cc) => /^[A-Z]{2}$/.test(cc || "") ? String.fromCodePoint(...[...cc].map((c) => 0x1f1a5 + c.charCodeAt(0))) : "🌐";
+  const countryName = (cc, en) => (trCountry && /^[A-Z]{2}$/.test(cc || "") && trCountry.of(cc)) || en || cc || "Bilinmiyor";
+
+  function setPressed(seg, attr, value) {
+    for (const b of seg.querySelectorAll("button")) b.setAttribute("aria-pressed", String(b.dataset[attr] === value));
+  }
+
+  function barList(title, rows, labelFn) {
+    const card = el("div", { class: "card" }, el("h2", {}, title));
+    if (!rows.length) { card.append(el("p", { class: "empty" }, "Henüz veri yok.")); return card; }
+    const max = Math.max(...rows.map((r) => r[1]));
+    const ol = el("ol", { class: "bars" });
+    for (const [key, n] of rows) {
+      const label = labelFn(key);
+      const li = el("li", { title: `${label}: ${nf.format(n)}` },
+        el("div", { class: "fill", style: `width:${Math.max(2, (n / max) * 100)}%` }),
+        el("span", {}, label), el("span", { class: "n" }, nf.format(n)));
+      ol.append(li);
+    }
+    card.append(ol);
+    return card;
+  }
+
+  function kpi(k, v, s, isText) {
+    return el("div", { class: "card kpi" }, el("div", { class: "k" }, k), el("div", { class: isText ? "v text" : "v" }, v), s ? el("div", { class: "s" }, s) : null);
+  }
+
+  function chart(series) {
+    const card = el("div", { class: "card chart-card" }, el("h2", {}, "Günlük ziyaretçi"));
+    const box = el("div", { class: "chart" });
+    const tip = el("div", { class: "tip", role: "status" });
+    const W = 1000, H = 200, padL = 34, padB = 22, padT = 8;
+    const max = Math.max(1, ...series.map((d) => d[2]));
+    const step = niceStep(max);
+    const top = Math.ceil(max / step) * step;
+    const ns = "http://www.w3.org/2000/svg";
+    const svg = document.createElementNS(ns, "svg");
+    svg.setAttribute("viewBox", `0 0 ${W} ${H}`);
+    svg.setAttribute("preserveAspectRatio", "none");
+    svg.setAttribute("role", "img");
+    svg.setAttribute("aria-label", "Günlük ziyaretçi sayısı grafiği");
+    const add = (tag, attrs) => { const n = document.createElementNS(ns, tag); for (const [k, v] of Object.entries(attrs)) n.setAttribute(k, v); svg.append(n); return n; };
+    const y = (v) => padT + (H - padT - padB) * (1 - v / top);
+    for (let v = 0; v <= top; v += step) {
+      add("line", { x1: padL, x2: W, y1: y(v), y2: y(v), stroke: "var(--grid)", "stroke-width": 1, "vector-effect": "non-scaling-stroke" });
+      const t = add("text", { x: padL - 8, y: y(v) + 4, "text-anchor": "end", "font-size": 11, fill: "var(--ink-3)" });
+      t.textContent = nf.format(v);
+    }
+    const slot = (W - padL) / series.length;
+    const bw = Math.max(2, Math.min(28, slot - 2));
+    const labelEvery = Math.ceil(series.length / 8);
+    series.forEach(([day, pv, vis], i) => {
+      const x = padL + i * slot + (slot - bw) / 2;
+      const h = (H - padT - padB) * (vis / top);
+      const r = Math.min(4, bw / 2, h);
+      const y0 = H - padB, y1 = y0 - h;
+      if (vis > 0) {
+        add("path", { d: `M${x},${y0} V${y1 + r} Q${x},${y1} ${x + r},${y1} H${x + bw - r} Q${x + bw},${y1} ${x + bw},${y1 + r} V${y0} Z`, fill: "var(--series-1)" });
+      }
+      if (i % labelEvery === 0 || i === series.length - 1) {
+        const t = add("text", { x: x + bw / 2, y: H - 6, "text-anchor": "middle", "font-size": 11, fill: "var(--ink-3)" });
+        t.textContent = dateShort.format(new Date(day + "T12:00:00"));
+      }
+      const hit = add("rect", { x: padL + i * slot, y: padT, width: slot, height: H - padT - padB, fill: "transparent", tabindex: 0 });
+      const show = () => {
+        tip.replaceChildren(document.createTextNode(dateLong.format(new Date(day + "T12:00:00"))), el("br"),
+          el("b", {}, nf.format(vis)), document.createTextNode(" ziyaretçi · "), el("b", {}, nf.format(pv)), document.createTextNode(" görüntüleme"));
+        const rect = box.getBoundingClientRect();
+        const px = ((x + bw / 2) / W) * rect.width;
+        tip.style.left = Math.min(Math.max(px, 80), rect.width - 80) + "px";
+        tip.style.top = Math.max(0, (y1 / H) * rect.height - 8) + "px";
+        tip.style.opacity = 1;
+      };
+      hit.addEventListener("mouseenter", show);
+      hit.addEventListener("focus", show);
+      hit.addEventListener("mouseleave", () => (tip.style.opacity = 0));
+      hit.addEventListener("blur", () => (tip.style.opacity = 0));
+    });
+    box.append(svg, tip);
+    // Ekran okuyucu / tablo görünümü
+    const table = el("table", { class: "sr" }, el("caption", {}, "Günlük ziyaretçi tablosu"),
+      el("tr", {}, el("th", {}, "Gün"), el("th", {}, "Ziyaretçi"), el("th", {}, "Görüntüleme")));
+    for (const [day, pv, vis] of series) table.append(el("tr", {}, el("td", {}, day), el("td", {}, String(vis)), el("td", {}, String(pv))));
+    card.append(box, table);
+    return card;
+  }
+
+  function niceStep(max) {
+    const raw = max / 4;
+    const pow = 10 ** Math.floor(Math.log10(raw));
+    for (const m of [1, 2, 5, 10]) if (raw <= m * pow) return Math.max(1, m * pow);
+    return Math.max(1, 10 * pow);
+  }
+
+  function recentTable(rows) {
+    const card = el("div", { class: "card" }, el("h2", {}, "Son ziyaretler"));
+    if (!rows.length) { card.append(el("p", { class: "empty" }, "Henüz veri yok.")); return card; }
+    const multiSite = state.site === "all";
+    const head = el("tr", {}, el("th", {}, "Zaman"), multiSite ? el("th", {}, "Site") : null, el("th", {}, "Sayfa"),
+      el("th", {}, "Konum"), el("th", {}, "Cihaz"), el("th", {}, "Kaynak"), el("th", {}, "IP"));
+    const table = el("table", {}, el("thead", {}, head));
+    const tb = el("tbody");
+    for (const r of rows.slice(0, 100)) {
+      const place = [r.city || r.region, countryName(r.cc, r.country)].filter(Boolean).join(", ");
+      tb.append(el("tr", {},
+        el("td", {}, timeFmt.format(new Date(r.ts * 1000))),
+        multiSite ? el("td", {}, r.site) : null,
+        el("td", { class: "path mono", title: r.path }, r.path),
+        el("td", {}, `${flag(r.cc)} ${place}`),
+        el("td", {}, `${r.device} · ${r.browser}`),
+        el("td", {}, r.ref || "—"),
+        el("td", { class: "mono" }, r.ip || "—")));
+    }
+    table.append(tb);
+    card.append(el("div", { class: "table-wrap" }, table));
+    return card;
+  }
+
+  function render() {
+    const content = document.getElementById("content");
+    const site = data.sites[state.site] || data.sites.all;
+    const r = site.ranges[state.range];
+    const mobile = (r.devices.find((d) => d[0] === "Mobil") || [0, 0])[1];
+    const topCountry = r.countries[0];
+    const nodes = [
+      el("div", { class: "kpis" },
+        kpi("Ziyaretçi", nf.format(r.visitors)),
+        kpi("Sayfa görüntüleme", nf.format(r.pageviews), r.visitors ? `kişi başı ${(r.pageviews / r.visitors).toLocaleString("tr-TR", { maximumFractionDigits: 1 })}` : null),
+        kpi("Mobil", r.visitors ? `%${Math.round((mobile / r.visitors) * 100)}` : "—", "ziyaretçilerin"),
+        kpi("En çok gelen ülke", topCountry ? `${flag(topCountry[0][0])} ${countryName(topCountry[0][0], topCountry[0][1])}` : "—",
+          topCountry ? `${nf.format(topCountry[1])} ziyaretçi` : null, true)),
+    ];
+    if (state.range !== "1") nodes.push(chart(r.series));
+    nodes.push(el("div", { class: "grid" },
+      barList("Ülkeler", r.countries, ([cc, en]) => `${flag(cc)} ${countryName(cc, en)}`),
+      barList("Şehirler", r.cities, ([cc, city]) => `${flag(cc)} ${city}`),
+      barList("En çok bakılan sayfalar", r.pages, (p) => p),
+      barList("Nereden geldiler", r.referrers, (x) => x),
+      barList("Cihaz", r.devices, (x) => x),
+      barList("Tarayıcı", r.browsers, (x) => x)));
+    nodes.push(recentTable(site.recent));
+    content.replaceChildren(...nodes);
+    document.getElementById("updated").textContent = "Son güncelleme: " + timeFmt.format(new Date(data.generated));
+    try { localStorage.setItem("visits-filters", JSON.stringify(state)); } catch {}
+  }
+
+  function buildSiteSeg() {
+    const seg = document.getElementById("siteSeg");
+    const keys = Object.keys(data.sites).filter((k) => k === "all" || data.sites[k].ranges["90"].pageviews > 0);
+    if (!keys.includes(state.site)) state.site = "all";
+    seg.replaceChildren(...keys.map((k) => el("button", { "data-site": k }, SITE_LABEL[k] || k)));
+    setPressed(seg, "site", state.site);
+  }
+
+  document.getElementById("siteSeg").addEventListener("click", (e) => {
+    const b = e.target.closest("button"); if (!b) return;
+    state.site = b.dataset.site; setPressed(e.currentTarget, "site", state.site); render();
+  });
+  document.getElementById("rangeSeg").addEventListener("click", (e) => {
+    const b = e.target.closest("button"); if (!b) return;
+    state.range = b.dataset.range; setPressed(e.currentTarget, "range", state.range); render();
+  });
+  setPressed(document.getElementById("rangeSeg"), "range", state.range);
+
+  async function load() {
+    try {
+      const res = await fetch("/api/visits", { cache: "no-store" });
+      if (res.status === 404) throw new Error("no_data");
+      if (!res.ok) throw new Error("HTTP " + res.status);
+      data = await res.json();
+      buildSiteSeg();
+      render();
+    } catch (err) {
+      document.getElementById("content").replaceChildren(el("p", { class: "empty" },
+        err.message === "no_data" ? "Henüz istatistik üretilmedi. İlk veriler birkaç dakika içinde görünür." : "Veri yüklenemedi: " + err.message));
+    }
+  }
+  load();
+  setInterval(load, 5 * 60 * 1000);
+})();
+</script>
+</body>
+</html>

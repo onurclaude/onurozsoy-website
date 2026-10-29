@@ -29,3 +29,5 @@ services:
     volumes:
       - ./images:/data/images
       - ./index.html:/data/index.html
+      # Ziyaretçi istatistikleri (sunucuda /opt/visit-stats üretir; yoksa sayfa "veri yok" der)
+      - /var/lib/visit-stats/public:/data/visits:ro
