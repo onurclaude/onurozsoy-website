@@ -1,11 +1,11 @@
 (function () {
   const EN = {
-    brandsub: "Web & Digital Solutions", nav1: "Home", nav2: "Services", nav3: "Projects", nav4: "NFC & QR", nav5: "About", nav6: "Contact",
+    brandsub: "Web, Mobile & Digital Solutions", nav1: "Home", nav2: "Services", nav4: "NFC & QR", nav5: "About", nav6: "Contact",
     cta: "Get a Quote", eyebrow: "Web Development & Digital Solutions",
     h1a: "Take your business", h1b: "further", h1c: "in digital.",
     hv1: "A measurable digital presence for your brand.", hv2: "Coffee", hv3: "Review us<br>on Google",
     sub: "Onur Özsoy designs and develops modern websites, digital menu systems and NFC/QR solutions tailored to businesses. Not a template — an infrastructure built around your business.",
-    cta1: "Let's Discuss Your Project", cta2: "View Work",
+    cta1: "Let's Discuss Your Project", cta2: "View Services",
     stat1: "Years of experience", stat2: "Projects delivered", stat3: "Response time",
     s_eyebrow: "Services", s_h2: "The whole digital side, from one place.",
     s_sub: "From websites to digital menus, NFC/QR products to custom software: design, development and launch handled end to end.",
@@ -15,11 +15,6 @@
     sv3t: "NFC & QR Products", sv3b: "Google Review cards, table stands, stickers and custom products. One tap to the right page.",
     sv4t: "Custom Digital Projects", sv4b: "Business-specific web applications, booking and ordering flows, dashboards and integrations. We define the scope together.",
     sv4a: "Let's scope it →",
-    p_eyebrow: "Selected projects", p_h2: "Different industries, one standard.", p_all: "All projects →",
-    pj1k: "CORPORATE WEB", pj1b: "A product-led corporate site for a stationery and office supplies business: category structure, contact flow and fast mobile browsing.",
-    pj_more: "CASE STUDY →",
-    pj2k: "DIGITAL MENU", pj2t: "Café menu system", pj2b: "A mobile menu opened by QR; categories, campaigns and stock status editable by the business.",
-    pj3k: "NFC / QR PRODUCT", pj3t: "Google Review set", pj3b: "NFC card and stand set for counter and table, sending customers straight to the business review page.",
     n_eyebrow: "NFC & QR products", n_h2: "One tap sends your customer to the right place.",
     n_sub: "The customer holds their phone to the card or scans the QR, and the page you chose opens in seconds. The destination can be changed later — no reprinting.",
     n_d1: "GOOGLE REVIEW", n_d2: "INSTAGRAM", n_d3: "DIGITAL MENU", n_d4: "WEBSITE", n_d5: "WHATSAPP", n_d6: "CUSTOM LINK",
@@ -43,6 +38,7 @@
     a_h2: "I build digital products for businesses.",
     a_b1: "I'm a software developer working on the web side. My focus is corporate sites, digital menu systems and NFC/QR products, and I run the process myself from design to launch.",
     a_b2: "Instead of an agency structure I prefer direct contact: decisions happen fast and you speak with the person doing the work. After delivery the site stays yours, and I stay available for updates.",
+    a_b3: "On the corporate side, I have worked on projects at Turkish Airlines, Turkcell, HAVELSAN, AGESA and Türksat.",
     a_p1t: "Custom design", a_p1b: "No off-the-shelf themes.",
     a_p2t: "Mobile first", a_p2b: "Most traffic comes from phones.",
     a_p3t: "Long-term support", a_p3b: "Reachable after launch too.",
@@ -53,7 +49,10 @@
     f_desc: "PROJECT DESCRIPTION *", f_desc_ph: "Briefly describe what you want to build.",
     f_budget: "BUDGET RANGE (OPTIONAL)", f_send: "I'd Like to Discuss My Project",
     brain_hint: "DRAG · ROTATE — CLICK · SCATTER",
-    ft_sub: "ozsoyonur.com — Web & Digital Solutions"
+    sv5t: "Mobile App & Game", sv5b: "Custom mobile apps and games for iOS and Android. End-to-end development, from the idea to the store release.",
+    sv5c1: "MOBILE APP", sv5c2: "MOBILE GAME", sv5c3: "iOS & ANDROID",
+    pl1: "Digital menu", pl2: "Mobile app", pl3: "Mobile game", pl4: "Website",
+    ft_sub: "ozsoyonur.com — Web, Mobile & Digital Solutions"
   };
   const MSG = {
     idle: { tr: "YANIT SÜRESİ: 24 SAAT İÇİNDE", en: "RESPONSE TIME: WITHIN 24 HOURS" },
@@ -112,7 +111,7 @@
 
   function onScroll() {
     const on = window.scrollY > 24;
-    nav.style.background = on ? "rgba(0,0,0,.72)" : "rgba(0,0,0,0)";
+    nav.style.background = on ? "rgba(0,0,0,.94)" : "rgba(0,0,0,0)";
     nav.style.backdropFilter = on ? "saturate(160%) blur(14px)" : "none";
     nav.style.borderBottomColor = on ? "rgba(255,255,255,.1)" : "rgba(255,255,255,0)";
     nav.style.color = "#ffffff";
@@ -136,6 +135,17 @@
         io.observe(el);
       });
     });
+  }
+
+  // the mock game's score ticks up while the showcase is on screen
+  const gmScore = document.getElementById("gmScore");
+  if (gmScore && !window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+    let score = 2480;
+    setInterval(() => {
+      if (document.hidden) return;
+      score += 10;
+      gmScore.textContent = score.toLocaleString("tr-TR").replace(".", " ");
+    }, 400);
   }
 
   function setNote(key) {

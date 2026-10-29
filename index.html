@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Onur Özsoy — Web &amp; Dijital Çözümler</title>
+<title>Onur Özsoy — Web, Mobil &amp; Dijital Çözümler</title>
 <meta name="description" content="Onur Özsoy; işletmelere özel modern web siteleri, dijital menü sistemleri ve NFC/QR çözümleri tasarlar ve geliştirir.">
 <link rel="icon" type="image/png" href="favicon.png">
 <link rel="stylesheet" href="css/fonts.css">
@@ -15,14 +15,16 @@
 
   <header id="siteNav" style="position: sticky; top: 0; z-index: 50; transition: background .4s ease, border-color .4s ease, backdrop-filter .4s ease, color .4s ease; border-bottom: 1px solid rgba(20,20,15,0); background: rgba(247,244,239,0); color: #ffffff;">
     <nav data-r="pad" style="max-width: 1360px; margin: 0 auto; padding: 22px 32px; display: flex; align-items: center; gap: 40px; justify-content: space-between;">
-      <a href="#top" style="display: flex; flex-direction: column; gap: 3px; flex: none;">
+      <a href="#top" class="brand" style="display: flex; align-items: center; gap: 14px; flex: none;">
+        <img class="brand-logo" src="images/logo-nav.png" alt="" aria-hidden="true" width="360" height="243">
+        <span style="display: flex; flex-direction: column; gap: 3px;">
         <span style="font-family: 'Instrument Sans', sans-serif; font-weight: 600; font-size: 15px; letter-spacing: .22em; text-transform: uppercase;">Onur Özsoy</span>
-        <span data-i18n="brandsub" style="font-family: 'JetBrains Mono', monospace; font-size: 9.5px; letter-spacing: .18em; text-transform: uppercase; opacity: .62;">Web &amp; Dijital Çözümler</span>
+        <span data-i18n="brandsub" style="font-family: 'JetBrains Mono', monospace; font-size: 9.5px; letter-spacing: .18em; text-transform: uppercase; opacity: .62;">Web, Mobil &amp; Dijital Çözümler</span>
+        </span>
       </a>
       <div data-r="navlinks" style="flex: 1; display: flex; justify-content: center; gap: 28px; white-space: nowrap; font-size: 14.5px; color: inherit;">
         <a data-i18n="nav1" href="#top" class="hov-1" style="padding: 4px 0; border-bottom: 1px solid transparent; transition: border-color .3s, color .3s;">Ana Sayfa</a>
         <a data-i18n="nav2" href="#hizmetler" class="hov-1" style="padding: 4px 0; border-bottom: 1px solid transparent; transition: border-color .3s, color .3s;">Hizmetler</a>
-        <a data-i18n="nav3" href="#projeler" class="hov-1" style="padding: 4px 0; border-bottom: 1px solid transparent; transition: border-color .3s, color .3s;">Projeler</a>
         <a data-i18n="nav4" href="#nfc" class="hov-1" style="padding: 4px 0; border-bottom: 1px solid transparent; transition: border-color .3s, color .3s;">NFC &amp; QR</a>
         <a data-i18n="nav5" href="#hakkimda" class="hov-1" style="padding: 4px 0; border-bottom: 1px solid transparent; transition: border-color .3s, color .3s;">Hakkımda</a>
         <a data-i18n="nav6" href="#iletisim" class="hov-1" style="padding: 4px 0; border-bottom: 1px solid transparent; transition: border-color .3s, color .3s;">İletişim</a>
@@ -39,7 +41,6 @@
     <div id="mobileDrawer" style="display: none; border-top: 1px solid rgba(255,255,255,.12); background: rgba(5,6,7,.97); backdrop-filter: blur(14px); padding: 22px 20px 30px; color: #ffffff;">
       <div style="display: grid; gap: 2px; font-size: 19px; font-family: Newsreader, serif;">
         <a data-i18n="nav2" href="#hizmetler" style="padding: 12px 0; border-bottom: 1px solid rgba(255,255,255,.1);">Hizmetler</a>
-        <a data-i18n="nav3" href="#projeler" style="padding: 12px 0; border-bottom: 1px solid rgba(255,255,255,.1);">Projeler</a>
         <a data-i18n="nav4" href="#nfc" style="padding: 12px 0; border-bottom: 1px solid rgba(255,255,255,.1);">NFC &amp; QR</a>
         <a data-i18n="nav5" href="#hakkimda" style="padding: 12px 0; border-bottom: 1px solid rgba(255,255,255,.1);">Hakkımda</a>
         <a data-i18n="nav6" href="#iletisim" style="padding: 12px 0;">İletişim</a>
@@ -67,7 +68,7 @@
         <p data-i18n="sub" style="font-size: 17.5px; line-height: 1.62; color: #b3b3b3; max-width: 44ch; margin: 0 0 40px;">Onur Özsoy; işletmelere özel modern web siteleri, dijital menü sistemleri ve NFC/QR çözümleri tasarlar ve geliştirir. Tek bir şablon değil, işinize göre kurulan bir dijital altyapı.</p>
         <div style="display: flex; flex-wrap: wrap; gap: 14px; margin-bottom: 48px;">
           <a data-i18n="cta1" href="#iletisim" class="hov-4" style="background: #ffffff; color: #000000; padding: 17px 32px; border-radius: 6px; font-size: 15px; font-weight: 600; transition: background .3s, transform .3s;">Projenizi Konuşalım</a>
-          <a data-i18n="cta2" href="#projeler" class="hov-5" style="border: 1px solid rgba(242,239,232,.28); padding: 17px 32px; border-radius: 5px; font-size: 15px; font-weight: 500; color: #ffffff; transition: border-color .3s, background .3s;">Çalışmaları İncele</a>
+          <a data-i18n="cta2" href="#hizmetler" class="hov-5" style="border: 1px solid rgba(242,239,232,.28); padding: 17px 32px; border-radius: 5px; font-size: 15px; font-weight: 500; color: #ffffff; transition: border-color .3s, background .3s;">Hizmetleri İncele</a>
         </div>
         <div style="display: flex; gap: 44px; flex-wrap: wrap; padding-top: 30px; border-top: 1px solid rgba(255,255,255,.12);">
           <div>
@@ -108,10 +109,11 @@
     </defs>
   </svg>
 
-  <!-- ===== ürün vitrini: iki telefon ===== -->
+  <!-- ===== ürün vitrini: dört telefon ===== -->
   <section class="showcase">
     <div class="phones" data-scroll aria-hidden="true">
-      <div class="phone3d p-a">
+      <div class="phone3d p-1">
+        <span class="ph-label" data-i18n="pl1">Dijital menü</span>
         <div class="ph"><i class="isl"></i>
           <div class="scr scr-menu">
             <div class="mn-top"><b>Kafe</b><span class="live">Live</span></div>
@@ -124,7 +126,36 @@
           </div>
         </div>
       </div>
-      <div class="phone3d p-b">
+      <div class="phone3d p-2">
+        <span class="ph-label" data-i18n="pl2">Mobil uygulama</span>
+        <div class="ph"><i class="isl"></i>
+          <div class="scr scr-app">
+            <div class="ap-top"><span>Merhaba, Ayşe</span><i></i></div>
+            <div class="ap-card"><small>Bugünkü sipariş</small><b>128</b><span class="ap-up">+12%</span>
+              <svg viewBox="0 0 100 30" preserveAspectRatio="none"><path pathLength="1" d="M0 24 L14 20 L28 22 L42 12 L56 15 L70 6 L84 9 L100 2"/></svg>
+            </div>
+            <div class="ap-row"><i></i><div><b>Masa 4</b><small>2 ürün · hazırlanıyor</small></div><em>₺195</em></div>
+            <div class="ap-row"><i class="g"></i><div><b>Masa 7</b><small>Teslim edildi</small></div><em>₺310</em></div>
+            <div class="ap-row"><i></i><div><b>Paket #212</b><small>Yolda</small></div><em>₺145</em></div>
+            <div class="mn-bar"><i class="on"></i><i></i><i></i><i></i></div>
+          </div>
+        </div>
+      </div>
+      <div class="phone3d p-3">
+        <span class="ph-label" data-i18n="pl3">Mobil oyun</span>
+        <div class="ph"><i class="isl"></i>
+          <div class="scr scr-game">
+            <div class="gm-hud"><span>SKOR <b id="gmScore">2 480</b></span><span class="gm-hp"><i></i><i></i><i class="off"></i></span></div>
+            <div class="gm-sky"><i></i><i></i><i></i><i></i><i></i></div>
+            <div class="gm-obs"><i style="left:8%"></i><i style="left:62%"></i></div>
+            <svg class="gm-car" viewBox="0 0 80 40" aria-hidden="true"><path d="M4 26 L14 16 L34 12 L54 12 L70 20 L76 26 L70 30 L10 30 Z"/><circle cx="22" cy="31" r="5"/><circle cx="58" cy="31" r="5"/></svg>
+            <div class="gm-road"></div>
+            <u class="gm-play">▶ Oyna</u>
+          </div>
+        </div>
+      </div>
+      <div class="phone3d p-4">
+        <span class="ph-label" data-i18n="pl4">Web sitesi</span>
         <div class="ph"><i class="isl"></i>
           <div class="scr scr-web">
             <div class="wb-nav"><b>Port Ofis</b><span><i></i><i></i></span></div>
@@ -186,6 +217,31 @@
           </div>
           <h3 data-i18n="sv3t">NFC &amp; QR Ürünleri</h3>
           <p data-i18n="sv3b">Google Yorum kartları, masa standları, etiketler ve özel ürünler. Tek dokunuşla doğru sayfaya.</p>
+        </article>
+
+        <article data-reveal class="card">
+          <div class="ui ui-mobile" aria-hidden="true">
+            <div class="mb mb-app">
+              <div class="mb-h"><b></b><i></i></div>
+              <svg viewBox="0 0 100 30" preserveAspectRatio="none"><path pathLength="1" d="M0 24 L14 20 L28 22 L42 12 L56 15 L70 6 L84 9 L100 2"/></svg>
+              <div class="mb-r"><i></i><u></u></div>
+              <div class="mb-r"><i class="g"></i><u></u></div>
+              <div class="mb-r"><i></i><u></u></div>
+            </div>
+            <div class="mb mb-game">
+              <div class="mb-sc"><u></u><s></s></div>
+              <div class="mb-ob"><i></i><i></i></div>
+              <svg class="mb-car" viewBox="0 0 80 40"><path d="M4 26 L14 16 L34 12 L54 12 L70 20 L76 26 L70 30 L10 30 Z"/><circle cx="22" cy="31" r="5"/><circle cx="58" cy="31" r="5"/></svg>
+              <div class="mb-rd"></div>
+            </div>
+          </div>
+          <h3 data-i18n="sv5t">Mobil Uygulama &amp; Oyun</h3>
+          <p data-i18n="sv5b">iOS ve Android için işletmenize özel mobil uygulamalar ve oyunlar. Fikirden mağaza yayınına kadar uçtan uca geliştirme.</p>
+          <div class="chips">
+            <span data-i18n="sv5c1" class="chip">MOBİL UYGULAMA</span>
+            <span data-i18n="sv5c2" class="chip">MOBİL OYUN</span>
+            <span data-i18n="sv5c3" class="chip">iOS &amp; ANDROID</span>
+          </div>
         </article>
       </div>
 
@@ -267,57 +323,6 @@
     </div>
   </section>
 
-  <!-- ===== projeler ===== -->
-  <section id="projeler" class="sec">
-    <div class="wrap">
-      <div data-reveal class="head">
-        <p data-i18n="p_eyebrow" class="badge">Seçilmiş projeler</p>
-        <h2 data-i18n="p_h2" class="display">Farklı sektörler, aynı standart.</h2>
-      </div>
-
-      <div class="grid3">
-        <a data-reveal href="#iletisim" class="card link">
-          <div class="ui ui-browser tall" aria-hidden="true">
-            <div class="bar"><i></i><i></i><i></i><span>portofis</span></div>
-            <div class="pg">
-              <div class="nv"><b></b><u></u><u></u><u></u></div>
-              <div class="hl"><i></i><i class="s"></i><div class="bt"><s class="w"></s><s></s></div></div>
-              <div class="cd"><i></i><i></i><i></i></div>
-            </div>
-          </div>
-          <span data-i18n="pj1k" class="badge sm">KURUMSAL WEB</span>
-          <h3>Port Ofis</h3>
-          <p data-i18n="pj1b">Kırtasiye ve ofis ürünleri işletmesi için ürün odaklı kurumsal site: kategori yapısı, iletişim akışı ve mobilde hızlı gezinme.</p>
-          <span data-i18n="pj_more" class="more">VAKA ÇALIŞMASI →</span>
-        </a>
-
-        <a data-reveal href="#iletisim" class="card link">
-          <div class="ui ui-list tall" aria-hidden="true">
-            <div class="ui-h"><b>Menü</b><span class="live">Live</span></div>
-            <div class="ui-r"><span>Latte</span><em>₺85</em><i class="sw on"></i></div>
-            <div class="ui-r"><span>Flat White</span><em>₺90</em><i class="sw on"></i></div>
-            <div class="ui-r"><span>Cheesecake</span><em>₺110</em><i class="sw on"></i></div>
-            <div class="ui-r"><span>Limonata</span><em>₺65</em><i class="sw"></i></div>
-          </div>
-          <span data-i18n="pj2k" class="badge sm">DİJİTAL MENÜ</span>
-          <h3 data-i18n="pj2t">Kafe menü sistemi</h3>
-          <p data-i18n="pj2b">QR ile açılan mobil menü; kategori, kampanya ve stok durumu işletme tarafından güncellenebiliyor.</p>
-        </a>
-
-        <a data-reveal href="#iletisim" class="card link">
-          <div class="ui ui-nfc tall" aria-hidden="true">
-            <svg viewBox="0 0 40 40" class="waves"><path d="M8 28a14 14 0 0 1 0-20M15 25a8 8 0 0 0 0-14M22 22a3 3 0 0 0 0-8" fill="none" stroke="#9984d8" stroke-width="2.2" stroke-linecap="round" transform="translate(6 4)"/></svg>
-            <span class="t">Tap to review</span>
-            <span class="st"><i></i><i></i><i></i><i></i><i></i></span>
-          </div>
-          <span data-i18n="pj3k" class="badge sm">NFC / QR ÜRÜN</span>
-          <h3 data-i18n="pj3t">Google Yorum seti</h3>
-          <p data-i18n="pj3b">Kasa ve masa için NFC kart ve stant seti; müşteriyi doğrudan işletmenin yorum sayfasına yönlendiriyor.</p>
-        </a>
-      </div>
-    </div>
-  </section>
-
   <!-- ===== süreç ===== -->
   <section class="sec">
     <div class="wrap">
@@ -339,12 +344,16 @@
   <section id="hakkimda" class="sec">
     <div class="wrap">
       <div data-reveal class="about">
-        <div class="avatar" aria-hidden="true">OÖ</div>
+        <div class="avatar"><img src="images/logo-nav.png" alt="Onur Özsoy logosu" width="360" height="240"></div>
         <p class="who"><b>Onur Özsoy</b> · <span data-i18n="a_role">YAZILIM GELİŞTİRİCİ</span></p>
         <p data-i18n="a_eyebrow" class="badge">Hakkımda</p>
         <h2 data-i18n="a_h2" class="display sm">İşletmeler için dijital ürünler geliştiriyorum.</h2>
         <p data-i18n="a_b1" class="lead">Web geliştirme tarafında çalışan bir yazılım geliştiricisiyim. Kurumsal siteler, dijital menü sistemleri ve NFC/QR ürünleri üzerine odaklandım; tasarımdan yayına kadar süreci kendim yürütüyorum.</p>
         <p data-i18n="a_b2" class="lead">Ajans yapısı yerine doğrudan iletişimi tercih ediyorum: kararlar hızlı alınır, işi yapan kişiyle konuşursunuz. Teslimden sonra da site sizinle kalır, güncellemelerde yanınızdayım.</p>
+        <p data-i18n="a_b3" class="lead">Kurumsal tarafta Türk Hava Yolları, Turkcell, HAVELSAN, AGESA ve Türksat projelerinde çalıştım.</p>
+        <div class="chips" style="justify-content:center;margin:18px 0 32px">
+          <span class="chip">TÜRK HAVA YOLLARI</span><span class="chip">TURKCELL</span><span class="chip">HAVELSAN</span><span class="chip">AGESA</span><span class="chip">TÜRKSAT</span>
+        </div>
         <div class="cols3 cards">
           <div class="card"><b data-i18n="a_p1t">Özel tasarım</b><span data-i18n="a_p1b">Hazır tema kullanmıyorum.</span></div>
           <div class="card"><b data-i18n="a_p2t">Mobil öncelikli</b><span data-i18n="a_p2b">Trafiğin çoğu telefondan gelir.</span></div>
@@ -406,11 +415,10 @@
       <div class="foot-row">
         <div>
           <div class="brand">Onur Özsoy</div>
-          <div data-i18n="ft_sub" class="sub">ozsoyonur.com — Web &amp; Dijital Çözümler</div>
+          <div data-i18n="ft_sub" class="sub">ozsoyonur.com — Web, Mobil &amp; Dijital Çözümler</div>
         </div>
         <nav class="links">
           <a data-i18n="nav2" href="#hizmetler">Hizmetler</a>
-          <a data-i18n="nav3" href="#projeler">Projeler</a>
           <a data-i18n="nav4" href="#nfc">NFC &amp; QR</a>
           <a data-i18n="nav6" href="#iletisim">İletişim</a>
           <a href="mailto:onur@ozsoyonur.com">onur@ozsoyonur.com</a>
