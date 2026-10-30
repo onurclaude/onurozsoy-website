@@ -1,13 +1,13 @@
 (function () {
   const EN = {
-    brandsub: "Web, Mobile & Digital Solutions", nav1: "Home", nav2: "Areas of Expertise", nav4: "NFC & QR", nav5: "About", nav6: "Contact",
+    brandsub: "Software Development & Digital Projects", nav1: "Home", nav2: "Areas of Expertise", nav4: "NFC & QR", nav5: "About", nav6: "Contact",
     cta: "Get in Touch with Me", eyebrow: "Web Development & Digital Solutions",
     h1a: "Turning ideas", h1b: "into digital", h1c: "products.",
     hv1: "A measurable digital presence for your brand.", hv2: "Coffee", hv3: "Review us<br>on Google",
     sub: "Onur Özsoy designs and develops modern websites, digital menu systems and NFC/QR solutions. Not a template — an infrastructure built around the need.",
     cta1: "Get in Touch with Me", cta2: "Areas of Expertise",
     stat1: "Years of experience", stat2: "Projects developed",
-    s_eyebrow: "Areas of Expertise", s_h2: "The whole digital side.",
+    s_eyebrow: "Areas of Expertise", s_h2: "Digital technologies and areas of expertise.",
     s_sub: "From websites to digital menus, NFC/QR products to software projects: I work across all stages of design, development and release.",
     sv1t: "Website Design & Development", sv1b: "Websites. Modern design, responsive development, speed and SEO-ready architecture.",
     sv1c1: "WEB INTERFACE", sv1c2: "LANDING PAGE", sv1c3: "PERFORMANCE & SEO",
@@ -37,11 +37,11 @@
     a_eyebrow: "About", a_role: "SOFTWARE DEVELOPER",
     a_h2: "I build digital products.",
     a_b1: "I'm a software developer working on the web side. My focus is corporate sites, digital menu systems and NFC/QR products, and I run the process myself from design to launch.",
-    a_b2: "I prefer a small-scale, direct way of working: decisions happen fast and you communicate with the person building the product.",
+    a_b2: "In my software work I focus on simple architecture, maintainability and user experience.",
     a_b3: "On the corporate side, I have worked on projects at Turkish Airlines, Turkcell, HAVELSAN, AGESA and Türksat.",
-    a_p1t: "Custom design", a_p1b: "No off-the-shelf themes.",
+    a_p1t: "Interface design", a_p1b: "User-focused approaches.",
     a_p2t: "Mobile first", a_p2b: "Most traffic comes from phones.",
-    a_p3t: "Maintainability", a_p3b: "Maintenance and updates after release.",
+    a_p3t: "Maintainable code", a_p3b: "Maintenance and extensibility.",
     c_eyebrow: "Contact", c_h2: "Ask what you are curious about.",
     c_sub: "You can use the form for general questions, feedback and technical topics. No account or sign-up needed.",
     c_mail: "DIRECT EMAIL",
@@ -53,7 +53,7 @@
     sv5c1: "MOBILE APP", sv5c2: "MOBILE GAME", sv5c3: "iOS & ANDROID",
     pl1: "Digital menu", pl2: "Mobile app", pl3: "Mobile game", pl4: "Website",
     mq: "<span>WEBSITE</span><span style='color: #B8994F;'>·</span><span>DIGITAL MENU</span><span style='color: #B8994F;'>·</span><span>NFC & QR DEVELOPMENT</span><span style='color: #B8994F;'>·</span><span>MOBILE APP</span><span style='color: #B8994F;'>·</span><span>WEB APPLICATION</span><span style='color: #B8994F;'>·</span>",
-    ft_sub: "ozsoyonur.com — Web, Mobile & Digital Solutions"
+    ft_sub: "ozsoyonur.com — Software Development & Digital Projects"
   };
   const MSG = {
     idle: { tr: "MESAJINIZI YAZIN", en: "WRITE YOUR MESSAGE" },
