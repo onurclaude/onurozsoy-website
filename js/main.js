@@ -1,7 +1,7 @@
 (function () {
   const EN = {
     brandsub: "Software Development & Digital Projects", nav1: "Home", nav2: "Areas of Expertise", nav4: "NFC & QR", nav5: "About", nav6: "Contact",
-    cta: "Get in Touch with Me", eyebrow: "Web Development & Digital Solutions",
+    cta: "Get in Touch with Me", eyebrow: "Web Development & Digital Projects",
     h1a: "Turning ideas", h1b: "into digital", h1c: "products.",
     hv1: "A measurable digital presence for your brand.", hv2: "Coffee", hv3: "Review us<br>on Google",
     sub: "Onur Özsoy designs and develops modern websites, digital menu systems and NFC/QR solutions. Not a template — an infrastructure built around the need.",
