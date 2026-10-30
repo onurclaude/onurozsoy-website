@@ -5,6 +5,7 @@ const multer = require('multer');
 const nodemailer = require('nodemailer');
 
 const ROOT = path.join(__dirname, '..');
+const VISITS_FILE = process.env.VISITS_FILE || '/data/visits/summary.json';
 const IMAGES_DIR = process.env.IMAGES_DIR ? path.resolve(process.env.IMAGES_DIR) : path.join(ROOT, 'images');
 const INDEX_HTML = process.env.INDEX_HTML ? path.resolve(process.env.INDEX_HTML) : path.join(ROOT, 'index.html');
 
@@ -67,6 +68,14 @@ function currentFileForSlot(base) {
   }
   return null;
 }
+
+// Ziyaretçi istatistikleri: sunucudaki /opt/visit-stats betiğinin ürettiği özet (salt okunur bağlanır).
+app.get('/api/visits', (req, res) => {
+  fs.readFile(VISITS_FILE, 'utf8', (err, data) => {
+    if (err) return res.status(404).json({ error: 'no_data' });
+    res.type('application/json').set('Cache-Control', 'no-store').send(data);
+  });
+});
 
 app.get('/api/slots', (req, res) => {
   const data = SLOTS.map((s) => {
