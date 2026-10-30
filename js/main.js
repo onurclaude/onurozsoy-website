@@ -53,6 +53,7 @@
     sv5c1: "MOBILE APP", sv5c2: "MOBILE GAME", sv5c3: "iOS & ANDROID",
     pl1: "Digital menu", pl2: "Mobile app", pl3: "Mobile game", pl4: "Website",
     mq: "<span>WEBSITE</span><span style='color: #B8994F;'>·</span><span>DIGITAL MENU</span><span style='color: #B8994F;'>·</span><span>NFC & QR DEVELOPMENT</span><span style='color: #B8994F;'>·</span><span>MOBILE APP</span><span style='color: #B8994F;'>·</span><span>WEB APPLICATION</span><span style='color: #B8994F;'>·</span>",
+    ft_notice: "Notice: This website has been prepared to present a personal portfolio and technical work. No commercial services are offered through this site.",
     ft_sub: "ozsoyonur.com — Web, Mobile & Digital Solutions"
   };
   const MSG = {
