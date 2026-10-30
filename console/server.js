@@ -149,7 +149,8 @@ app.post('/contact', express.json({ limit: '20kb' }), async (req, res) => {
 
   const name = oneLine(b.name, 120);
   const email = oneLine(b.email, 200);
-  const brief = clean(b.brief, 5000);
+  const brief = clean(b.message || b.brief, 5000);
+  const subject = oneLine(b.subject, 120);
   if (!name || !brief || !/^[^\s@<>"]+@[^\s@<>"]+\.[^\s@<>"]+$/.test(email)) {
     return res.status(400).json({ error: 'invalid' });
   }
@@ -159,11 +160,9 @@ app.post('/contact', express.json({ limit: '20kb' }), async (req, res) => {
   const text = [
     `Ad: ${name}`,
     `E-posta: ${email}`,
-    `Firma: ${oneLine(b.company, 160) || '—'}`,
-    `Proje türü: ${oneLine(b.type, 80) || '—'}`,
-    `Bütçe: ${oneLine(b.budget, 80) || '—'}`,
+    `Konu: ${subject || '—'}`,
     '',
-    'Açıklama:',
+    'Mesaj:',
     brief,
   ].join('\n');
 
@@ -172,7 +171,7 @@ app.post('/contact', express.json({ limit: '20kb' }), async (req, res) => {
       from: process.env.SMTP_FROM || `"ozsoyonur.com" <${process.env.SMTP_USER}>`,
       to: MAIL_TO,
       replyTo: { name: name.replace(/["<>]/g, ''), address: email },
-      subject: `Proje talebi — ${name}`,
+      subject: `İletişim formu — ${subject || name}`,
       text,
     });
     res.json({ ok: true });
